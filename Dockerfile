@@ -17,9 +17,9 @@ RUN npm install dotenv
 RUN npm install pm2 -g
 
 # Make app run on lower priviledge user for openshift.
+USER root
 RUN chmod -R 775 /usr/src/app/dist
 RUN chown -R 1000:root /usr/src/app/dist
-
 USER 1000
 
 EXPOSE 8080
