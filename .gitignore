@@ -1,0 +1,5 @@
+dist
+node_modules
+report.txt
+.env
+.DS_Store

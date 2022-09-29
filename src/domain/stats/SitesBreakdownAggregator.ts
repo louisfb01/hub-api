@@ -1,0 +1,41 @@
+import BreakdownResponse from "../../models/Response/BreakdownResponse";
+import HubSummarizeResponse from "../../models/Response/HubSummarizeResponse";
+
+function getBreakdownsAggregated(siteRequestSummarizeReponses: HubSummarizeResponse[]): BreakdownResponse | undefined {
+    if (!siteRequestSummarizeReponses[0].breakdown) return undefined;
+
+    const siteCountPerPeriodsStarts = new Map<string, number>();
+
+    for (let hubResponse of siteRequestSummarizeReponses) {
+
+        if (!hubResponse.breakdown) throw new Error('Site must have breakdown');
+        for (let breakdownResult of hubResponse.breakdown.result) {
+            const previousCountForPeriod = siteCountPerPeriodsStarts.get(breakdownResult.periodStart) ?? 0;
+            const countAggregated = previousCountForPeriod + breakdownResult.periodCount;
+
+            siteCountPerPeriodsStarts.set(breakdownResult.periodStart, countAggregated);
+        }
+    }
+
+    const breakdownResults = new Array<{ periodStart: string, periodCount: number }>();
+
+    siteCountPerPeriodsStarts.forEach((value, key) => {
+        const result = {
+            periodStart: key,
+            periodCount: value
+        };
+
+        breakdownResults.push(result);
+    })
+
+    return {
+        query: siteRequestSummarizeReponses[0].breakdown.query,
+        result: breakdownResults,
+        field: siteRequestSummarizeReponses[0].breakdown.field,
+        fieldType: siteRequestSummarizeReponses[0].breakdown.fieldType
+    };
+}
+
+export default {
+    getBreakdownsAggregated
+}
