@@ -6,6 +6,12 @@ FROM node:16
 ENV PM2_HOME="/home/node/app/.pm2"
 
 WORKDIR /usr/src/app
+
+RUN rm -r -f ./dist
+RUN npm ci
+RUN npm audit
+RUN npm run build
+
 COPY ./ ./
 
 # Make build footprint version for easier debugging.
