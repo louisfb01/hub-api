@@ -1,18 +1,15 @@
 FROM node:16
 
-### This docker file assumes that the npm build has already been run on the local host machine.
-### When run with the ./publish.sh script, this docker file has everything to built the image as lightly as possible.
-
 ENV PM2_HOME="/home/node/app/.pm2"
 
 WORKDIR /usr/src/app
 
-RUN rm -r -f ./dist
+COPY ./ ./
+
+# Install node modules and build
 RUN npm ci
 RUN npm audit
 RUN npm run build
-
-COPY ./ ./
 
 # Make build footprint version for easier debugging.
 RUN rm ./version.txt
