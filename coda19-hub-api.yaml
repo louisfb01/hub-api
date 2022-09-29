@@ -170,6 +170,9 @@ parameters:
   description: 'Redis port'
   value: '6379'
   required: true
+- name: CODA_HUB_API_REDIS_PASSWORD
+  displayName: REDIS PASSWORD
+  description: 'Redis password'
 - name: CODA_HUB_API_EMAIL_HOST
   displayName: EMAIL HOST
   description: 'Email server host'
