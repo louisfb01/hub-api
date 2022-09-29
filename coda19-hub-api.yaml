@@ -145,12 +145,10 @@ parameters:
 - name: CODA_HUB_API_KEYCLOAK_URL
   displayName: KEYCLOAK URL
   description: 'Keycloak Url'
-  value: 'https://auth.hub.coda.com/auth'
   required: true
 - name: CODA_HUB_API_KEYCLOAK_REALM
   displayName: KEYCLOAK REALM
   description: 'Keycloak Realm'
-  value: 'coda-pr'
   required: true
 - name: CODA_HUB_API_KEYCLOAK_CLIENT_SECRET
   displayName: KEYCLOAK CLIENT SECRET
@@ -163,16 +161,16 @@ parameters:
 - name: CODA_HUB_API_REDIS_HOST
   displayName: REDIS HOST
   description: 'Redis host url'
-  value: coda-hub-redis
   required: true
 - name: CODA_HUB_API_REDIS_PORT
   displayName: REDIS PORT
   description: 'Redis port'
-  value: '6379'
   required: true
 - name: CODA_HUB_API_REDIS_PASSWORD
   displayName: REDIS PASSWORD
   description: 'Redis password'
+  description: 'Redis port'
+  required: true
 - name: CODA_HUB_API_EMAIL_HOST
   displayName: EMAIL HOST
   description: 'Email server host'
