@@ -4,6 +4,7 @@ import cors from 'cors';
 function register(app: Application) {
     const allowedOrigins: Array<string> = [
         'http://localhost:3000',
+        'https://dashboard-api.sandbox.coda-platform.com'
 
     ];
 
