@@ -32,9 +32,8 @@ router.get('/summarize', async (req, res, next) => {
     const jobID = crypto.randomBytes(12).toString('base64');
     req.body.job = jobID
 
-    console.log(111, req.body)
     const query: any = {
-        body: req.body.query,
+        body: req.body,
         sites: value.sites ? value.sites.split(",") : [],
         waitTime: value.waitTime ? value.waitTime : Constants.webSocketWaitTime
     };
@@ -68,7 +67,7 @@ router.get('/request', async (req, res, next) => {
     req.body.job = jobID
 
     const query: any = {
-        body: req.body.query,
+        body: req.body,
         sites: value.sites ? value.sites.split(",") : [],
         waitTime: value.waitTime ? value.waitTime : Constants.webSocketWaitTime
     };
