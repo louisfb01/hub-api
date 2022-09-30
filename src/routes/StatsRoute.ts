@@ -26,12 +26,13 @@ router.get('/summarize', async (req, res, next) => {
         return;
     }
     var token = ''
-    if(req.headers.authorization)
-    token = req.headers.authorization.split(' ')[1]
+    if (req.headers.authorization)
+        token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const jobID = crypto.randomBytes(12).toString('base64');
     req.body.job = jobID
 
+    console.log(111, req.body)
     const query: any = {
         body: req.body.query,
         sites: value.sites ? value.sites.split(",") : [],
@@ -45,8 +46,8 @@ router.get('/summarize', async (req, res, next) => {
 
         res.send(stats);
     }
-    catch (error:any) {
-        error = Object.assign(error, {user: user})
+    catch (error: any) {
+        error = Object.assign(error, { user: user })
         next(error);
     }
 });
@@ -58,8 +59,8 @@ router.get('/request', async (req, res, next) => {
         return;
     }
     var token = ''
-    if(req.headers.authorization)
-    token = req.headers.authorization.split(' ')[1]
+    if (req.headers.authorization)
+        token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const username = user.preferred_username;
 
@@ -76,7 +77,7 @@ router.get('/request', async (req, res, next) => {
 
         const waitAllSites = value.waitAllSites === false ? false : true;
         const stats = StatsServices.compileRequest(resultsWrapper, waitAllSites);;
-        
+
         const request = {
             name: req.body.name,
             jobID: req.body.job,
@@ -87,8 +88,8 @@ router.get('/request', async (req, res, next) => {
 
         res.send(stats);
     }
-    catch (error:any) {
-        error = Object.assign(error, {user: user})
+    catch (error: any) {
+        error = Object.assign(error, { user: user })
         next(error);
     }
 });
@@ -100,8 +101,8 @@ router.get('/progress', async (req, res, next) => {
         return;
     }
     var token = ''
-    if(req.headers.authorization)
-    var token = req.headers.authorization.split(' ')[1]
+    if (req.headers.authorization)
+        var token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
 
     const query: any = {
@@ -124,8 +125,8 @@ router.get('/progress', async (req, res, next) => {
 
         res.send(stats);
     }
-    catch (error:any) {
-        error = Object.assign(error, {user: user})
+    catch (error: any) {
+        error = Object.assign(error, { user: user })
         next(error);
     }
 });
@@ -137,8 +138,8 @@ router.get('/compile', async (req, res, next) => {
         return;
     }
     var token = ''
-    if(req.headers.authorization)
-    var token = req.headers.authorization.split(' ')[1]
+    if (req.headers.authorization)
+        var token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
 
     const query: any = {
@@ -155,16 +156,16 @@ router.get('/compile', async (req, res, next) => {
 
         res.send(stats);
     }
-    catch (error:any) {
-        error = Object.assign(error, {user: user})
+    catch (error: any) {
+        error = Object.assign(error, { user: user })
         next(error);
     }
 });
 
 router.get("/jobs", async (req, res, next) => {
     var token = ''
-    if(req.headers.authorization)
-    var token = req.headers.authorization.split(' ')[1]
+    if (req.headers.authorization)
+        var token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const username = user.preferred_username;
 
@@ -173,8 +174,8 @@ router.get("/jobs", async (req, res, next) => {
 
         res.send(jobs);
     }
-    catch (error:any) {
-        error = Object.assign(error, {user: user})
+    catch (error: any) {
+        error = Object.assign(error, { user: user })
         next(error);
     }
 });
