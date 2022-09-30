@@ -1,6 +1,11 @@
-# CODA Hub API
+# Hub API
 
-The `hub-api` is a service that orchestrates and aggregates distributed analysis jobs using the CODA API. 
+### Overview
+
+- **Description:** This repository implements a service that orchestrates and aggregates distributed analysis jobs on the CODA platform. It receives requests from the [dashboard API](https://github.com/coda-platform/dashboard-api) and communicates with the [site APIs](https://github.com/coda-platform/site-api) conformant to the [CODA API specification](https://github.com/coda-platform/api-specification).
+- **Primary author(s):** Kevin Arsenault [[@arsenaultk9](https://github.com/arsenaultk9)], Xue Feishi [[@xuefeishi](https://github.com/xuefeishi)], Jeffrey Li [[@JeffreyLi16](https://github.com/JeffreyLi16)], Maxime Lavigne [[@malavv](https://github.com/malavv)].
+- **Contributors:** Louis Mullie [[@louism](https://github.com/louismullie)], Pascal St-Onge [[@stongepa](https://github.com/stongepa)].
+- **License:** The code in this repository is released under the GNU General Public License, V3.
 
 Contents
 ========
@@ -11,10 +16,6 @@ Contents
  * [Deployment](#deployment)
  * [Security](#security)
  * [Want to contribute?](#want-to-contribute)
-
-### Overview
-
-This service receives requests from consumer services (e.g. dashboard, code notebooks) and dispatches them at the different hospital sites via web socket connections.
 
 ### Installation
 ---
