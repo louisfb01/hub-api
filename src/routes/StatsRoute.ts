@@ -8,6 +8,7 @@ import StatsServices from '../services/StatsServices';
 import webSocketAdapter from '../websocket/WebSocketAdapter';
 import SiteRequestResponse from '../models/Response/SiteRequestResponse';
 import SiteSummarizeResponse from '../models/Response/SiteSummarizeResponse';
+import SiteStatsBreakdownResponse from '../models/Response/SiteStatsBreakdownResponse';
 
 var router = express.Router();
 var crypto = require('crypto')
@@ -40,10 +41,10 @@ router.get('/summarize', async (req, res, next) => {
     try {
         var resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsSummarize', 'sendStatsSummarize', query)();
         const waitAllSites = value.waitAllSites === false ? false : true;
-
-        if(req.body.selector[0].breakdown){
+        if(req.body.selectors[0].breakdown){
             query = StatsServices.breakdownLimit(resultsWrapper, query, waitAllSites);
-            resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsBreakdown', 'sendStatsBreakdown', query)();
+            const breakdownResultsWrapper = await webSocketAdapter.emit<SiteStatsBreakdownResponse>('getStatsBreakdown', 'sendStatsBreakdown', query)();
+            StatsServices.compileBreakdown(breakdownResultsWrapper, resultsWrapper);
         }
         
         const stats = StatsServices.compileSummarize(resultsWrapper, waitAllSites);

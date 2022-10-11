@@ -25,6 +25,7 @@ import SendLearningTrainListeningEvent from "./listeningevents/SendLearningTrain
 import SendLearningEvaluateListeningEvent from "./listeningevents/SendLearningEvaluateListeningEvent";
 import version from "./utils/version";
 import genericErrorResponseHandler from "./utils/genericErrorResponseHandler";
+import SendStatsBreakdownListeningEvent from "./listeningevents/SendStatsBreakdownListeningEvent";
 
 var app = express();
 app.use(bodyParser.json());
@@ -59,4 +60,5 @@ webSocketAdapter.register(server, [
   new SendLearningPrepareListeningEvent(),
   new SendLearningTrainListeningEvent(),
   new SendLearningEvaluateListeningEvent(),
+  new SendStatsBreakdownListeningEvent()
 ]);
