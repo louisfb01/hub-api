@@ -52,6 +52,14 @@ function toArray(obj:WebSocketBusEventResult<any[]>){
     }
 }
 
+function getCI95Result(siteReponse: WebSocketBusEventResult<SiteStatsCompileResponse[]| SiteSummarizeResponse[]>, selector:any) {
+    const breakdownAttribute = selector[0].breakdown.resource.field
+    const results = toArray(siteReponse)
+    return results.map(sr => {
+        return sr.fieldResponses.find((fr: any) => { fr.field == breakdownAttribute }).ci95
+    })
+}
+
 export default {
-    getResultsMapped, getRequestMapped, getProgressMapped
+    getResultsMapped, getRequestMapped, getProgressMapped, getCI95Result
 }
