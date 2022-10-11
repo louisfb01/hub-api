@@ -43,7 +43,7 @@ router.get('/summarize', async (req, res, next) => {
 
         if(req.body.selector[0].breakdown){
             query = StatsServices.breakdownLimit(resultsWrapper, query, waitAllSites);
-            resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsBreakdown', 'sendStatBreakdown', query)();
+            resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsBreakdown', 'sendStatsBreakdown', query)();
         }
         
         const stats = StatsServices.compileSummarize(resultsWrapper, waitAllSites);
