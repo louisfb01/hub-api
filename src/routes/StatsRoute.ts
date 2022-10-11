@@ -32,15 +32,20 @@ router.get('/summarize', async (req, res, next) => {
     const jobID = crypto.randomBytes(12).toString('base64');
     req.body.job = jobID
 
-    const query: any = {
+    var query: any = {
         body: req.body,
         sites: value.sites ? value.sites.split(",") : [],
         waitTime: value.waitTime ? value.waitTime : Constants.webSocketWaitTime
     };
     try {
-        const resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsSummarize', 'sendStatsSummarize', query)();
-
+        var resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsSummarize', 'sendStatsSummarize', query)();
         const waitAllSites = value.waitAllSites === false ? false : true;
+
+        if(req.body.selector[0].breakdown){
+            query = StatsServices.breakdownLimit(resultsWrapper, query, waitAllSites);
+            resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsBreakdown', 'sendStatBreakdown', query)();
+        }
+        
         const stats = StatsServices.compileSummarize(resultsWrapper, waitAllSites);
 
         res.send(stats);
