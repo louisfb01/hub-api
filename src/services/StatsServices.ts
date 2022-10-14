@@ -59,7 +59,7 @@ function breakdownLimit(webSocketResults: WebSocketBusEventResult<SiteSummarizeR
     const CIResults = webSocketResults
         .filter(rw => waitAllSites || rw.succeeded)
         .map(rw => HubSummarizeReponseMapper.getCI95Result(rw, query.body));
-    const smallestAllowableStep = SitesBreakdownLimitAggregator.calculate(CIResults[0]);
+    const smallestAllowableStep = SitesBreakdownLimitAggregator.calculate(CIResults);
     query.body.selectors[0].breakdown.slices.step > smallestAllowableStep || (query.body.selectors[0].breakdown.slices.step = smallestAllowableStep);
     return query;
 }

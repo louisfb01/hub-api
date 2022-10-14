@@ -1,9 +1,11 @@
-function calculate(ci95s: number[][]): number {
+function calculate(ci95s: number[][][]): number {
     let smallestAllowableSteps: number[]  = []
     const smallestAllowablePercent = 0.05;
 
     ci95s.forEach(siteCI =>{
-        let step = (siteCI[1] - siteCI[0]) * smallestAllowablePercent;
+        let ciLow = siteCI[0][0];
+        let ciHigh = siteCI[0][1];
+        let step = (ciHigh - ciLow) * smallestAllowablePercent;
         smallestAllowableSteps.push(step);
     })
     const result = Math.max(...smallestAllowableSteps);
