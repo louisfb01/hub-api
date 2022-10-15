@@ -26,8 +26,8 @@
             "value": "$CODA_HUB_CACHE_DB_PORT"
         },
         {
-            "key": "CODA_HUB_API_REDIS_PASSWORD",
-            "value": "$CODA_HUB_API_REDIS_PASSWORD"
+            "key": "CODA_HUB_CACHE_DB_PASSWORD",
+            "value": "$CODA_HUB_CACHE_DB_PASSWORD"
         },
         {
             "key": "CODA_HUB_API_EMAIL_HOST",
