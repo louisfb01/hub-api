@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function isTokenValide(token: string) {
-    const keycloakUrlAndRealm = `${process.env.CODA_HUB_API_KEYCLOAK_URL}/realms/${process.env.CODA_HUB_API_KEYCLOAK_REALM}`;
+    const keycloakUrlAndRealm = `${process.env.CODA_AUTH_SERVICE_URL}/realms/${process.env.CODA_HUB_API_AUTH_REALM}`;
     const instance = axios.create({
         baseURL: keycloakUrlAndRealm
     });

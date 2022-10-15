@@ -17,7 +17,7 @@ objects:
       application: ${CODA_HUB_API}
   type: Opaque
   stringData:
-    secret: ${CODA_HUB_API_KEYCLOAK_CLIENT_SECRET}
+    secret: ${CODA_HUB_API_AUTH_CLIENT_SECRET}
 - apiVersion: v1
   kind: Secret
   metadata:
@@ -26,7 +26,7 @@ objects:
       application: ${CODA_HUB_API}
   type: Opaque
   stringData:
-    secret: ${CODA_HUB_API_KEYCLOAK_SESSION_MEMORY_SECRET}
+    secret: ${CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET}
 - apiVersion: v1
   kind: Service
   metadata:
@@ -89,26 +89,26 @@ objects:
       spec:
         containers:
           - env:
-            - name: CODA_HUB_API_SERVER_PORT
-              value: '${CODA_HUB_API_SERVER_PORT}'
-            - name: CODA_HUB_API_KEYCLOAK_URL
-              value: '${CODA_HUB_API_KEYCLOAK_URL}'
-            - name: CODA_HUB_API_KEYCLOAK_REALM
-              value: '${CODA_HUB_API_KEYCLOAK_REALM}'
-            - name: CODA_HUB_API_KEYCLOAK_CLIENT_SECRET
+            - name: CODA_HUB_API_PORT
+              value: '${CODA_HUB_API_PORT}'
+            - name: CODA_AUTH_SERVICE_URL
+              value: '${CODA_AUTH_SERVICE_URL}'
+            - name: CODA_HUB_API_AUTH_REALM
+              value: '${CODA_HUB_API_AUTH_REALM}'
+            - name: CODA_HUB_API_AUTH_CLIENT_SECRET
               valueFrom:
                     secretKeyRef:
                       key: secret
                       name: ${CODA_HUB_API}-kc-identifiers
-            - name: CODA_HUB_API_KEYCLOAK_SESSION_MEMORY_SECRET
+            - name: CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
               valueFrom:
                     secretKeyRef:
                       key: secret
                       name: ${CODA_HUB_API}-kc-sessions
-            - name: CODA_HUB_API_REDIS_HOST
-              value: '${CODA_HUB_API_REDIS_HOST}'
-            - name: CODA_HUB_API_REDIS_PORT
-              value: '${CODA_HUB_API_REDIS_PORT}'
+            - name: CODA_HUB_CACHE_DB_HOST
+              value: '${CODA_HUB_CACHE_DB_HOST}'
+            - name: CODA_HUB_CACHE_DB_PORT
+              value: '${CODA_HUB_CACHE_DB_PORT}'
             - name: CODA_HUB_API_EMAIL_HOST
               value: '${CODA_HUB_API_EMAIL_HOST}'
             - name: CODA_HUB_API_EMAIL_PORT
@@ -137,32 +137,32 @@ parameters:
     Custom hostname for https service route. Leave blank for default hostname,
     e.g.: <application-name>-<namespace>.<default-domain-suffix>
   value: api.hub.coda.com
-- name: CODA_HUB_API_SERVER_PORT
+- name: CODA_HUB_API_PORT
   displayName: APP PORT
   description: 'Application Port'
   value: '8080'
   required: true
-- name: CODA_HUB_API_KEYCLOAK_URL
+- name: CODA_AUTH_SERVICE_URL
   displayName: KEYCLOAK URL
   description: 'Keycloak Url'
   required: true
-- name: CODA_HUB_API_KEYCLOAK_REALM
+- name: CODA_HUB_API_AUTH_REALM
   displayName: KEYCLOAK REALM
   description: 'Keycloak Realm'
   required: true
-- name: CODA_HUB_API_KEYCLOAK_CLIENT_SECRET
+- name: CODA_HUB_API_AUTH_CLIENT_SECRET
   displayName: KEYCLOAK CLIENT SECRET
   description: 'Keycloak client secret'
   required: true
-- name: CODA_HUB_API_KEYCLOAK_SESSION_MEMORY_SECRET
+- name: CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
   displayName: KEYCLOAK SESSION MEMORY SECRET
   description: 'Keycloak session memory secret'
   required: true
-- name: CODA_HUB_API_REDIS_HOST
+- name: CODA_HUB_CACHE_DB_HOST
   displayName: REDIS HOST
   description: 'Redis host url'
   required: true
-- name: CODA_HUB_API_REDIS_PORT
+- name: CODA_HUB_CACHE_DB_PORT
   displayName: REDIS PORT
   description: 'Redis port'
   value: '6379'

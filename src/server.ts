@@ -33,7 +33,7 @@ CorsMiddleware.register(app);
 
 
 // start the server
-var port = process.env.CODA_HUB_API_SERVER_PORT;
+var port = process.env.CODA_HUB_API_PORT;
 const server = app.listen(port, function () {
   console.log(`⚡️[coda-hub-api]: Server is running at http://localhost:${port}`);
   console.log(`⚡️[coda-hub-api]: Running ${version.getBuildVersion()} version of build`);

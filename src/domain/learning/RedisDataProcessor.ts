@@ -2,8 +2,8 @@ import { createNodeRedisClient } from 'handy-redis';
 var crypto = require('crypto')
 
 const PASSWORD = process.env.CODA_HUB_API_REDIS_PASSWORD ? process.env.CODA_HUB_API_REDIS_PASSWORD : ''
-const HOST = process.env.CODA_HUB_API_REDIS_HOST ? process.env.CODA_HUB_API_REDIS_HOST : 'localhost'
-const PORT = Number(String(process.env.CODA_HUB_API_REDIS_PORT)) ? Number(String(process.env.CODA_HUB_API_REDIS_PORT)) : 7777
+const HOST = process.env.CODA_HUB_CACHE_DB_HOST ? process.env.CODA_HUB_CACHE_DB_HOST : 'localhost'
+const PORT = Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) ? Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) : 7777
 const client = createNodeRedisClient({ host: HOST, port: PORT, password: PASSWORD });
 
 async function setRedisKey(result: any) {

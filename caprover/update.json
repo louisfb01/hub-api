@@ -1,0 +1,49 @@
+{
+    "appName": "hub-api",
+    "instanceCount": 1,
+    "notExposeAsWebApp": false,
+    "containerHttpPort": "$CODA_DASHBOARD_APP_PORT",
+    "forceSsl": true,
+    "envVars": [
+        {
+            "key": "CODA_HUB_API_PORT",
+            "value": "$CODA_HUB_API_PORT"
+        },
+        {
+            "key": "CODA_AUTH_SERVICE_URL",
+            "value": "$CODA_AUTH_SERVICE_URL"
+        },
+        {
+            "key": "CODA_HUB_API_AUTH_REALM",
+            "value": "$CODA_HUB_API_AUTH_REALM"
+        },
+        {
+            "key": "CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET",
+            "value": "$CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET"
+        },
+        {
+            "key": "CODA_HUB_CACHE_DB_HOST",
+            "value": "$CODA_HUB_CACHE_DB_HOST"
+        },
+        {
+            "key": "CODA_HUB_CACHE_DB_PORT",
+            "value": "$CODA_HUB_CACHE_DB_PORT"
+        },
+        {
+            "key": "CODA_HUB_API_REDIS_PASSWORD",
+            "value": "$CODA_HUB_API_REDIS_PASSWORD"
+        },
+        {
+            "key": "CODA_HUB_API_EMAIL_HOST",
+            "value": "$CODA_HUB_API_EMAIL_HOST"
+        },
+        {
+            "key": "CODA_HUB_API_EMAIL_PORT",
+            "value": "$CODA_HUB_API_EMAIL_PORT"
+        },
+        {
+            "key": "CODA_HUB_API_ERROR_EMAIL_RECIPIENTS",
+            "value": "$CODA_HUB_API_ERROR_EMAIL_RECIPIENTS"
+        }
+    ]
+}

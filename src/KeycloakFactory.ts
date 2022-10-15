@@ -10,8 +10,8 @@ function get(app: Application) {
 
   var memoryStore = new session.MemoryStore();
 
-  const sessionSecret = process.env.CODA_HUB_API_KEYCLOAK_SESSION_MEMORY_SECRET
-    ? process.env.CODA_HUB_API_KEYCLOAK_SESSION_MEMORY_SECRET
+  const sessionSecret = process.env.CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
+    ? process.env.CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
     : '';
 
   //session
