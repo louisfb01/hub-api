@@ -2,13 +2,9 @@
     "appName": "hub-api",
     "instanceCount": 1,
     "notExposeAsWebApp": false,
-    "containerHttpPort": "$CODA_DASHBOARD_APP_PORT",
+    "containerHttpPort": "$CODA_HUB_API_PORT",
     "forceSsl": true,
     "envVars": [
-        {
-            "key": "CODA_HUB_API_PORT",
-            "value": "$CODA_HUB_API_PORT"
-        },
         {
             "key": "CODA_AUTH_SERVICE_URL",
             "value": "$CODA_AUTH_SERVICE_URL"
