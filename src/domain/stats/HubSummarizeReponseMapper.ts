@@ -3,6 +3,7 @@ import HubStatsCompileResponse from "../../models/Response/hubStatsCompileRespon
 import HubStatsProgressResponse from "../../models/Response/HubStatsProgressResponse";
 import HubSummarizeResponse from "../../models/Response/HubSummarizeResponse";
 import SiteRequestResponse from "../../models/Response/SiteRequestResponse";
+import SiteStatsBreakdownResponse from "../../models/Response/SiteStatsBreakdownResponse";
 import SiteStatsCompileResponse from "../../models/Response/SiteStatsCompileResponse";
 import SiteStatsProgressResponse from "../../models/Response/SiteStatsProgressResponse";
 import SiteSummarizeResponse from "../../models/Response/SiteSummarizeResponse";
@@ -52,6 +53,29 @@ function toArray(obj:WebSocketBusEventResult<any[]>){
     }
 }
 
+function getCI95Result(siteReponse: WebSocketBusEventResult<SiteStatsCompileResponse[]| SiteSummarizeResponse[]>, body:any) {
+    const breakdownAttribute = body.selectors[0].breakdown.resource.field
+    const results = toArray(siteReponse)
+    return results.map(sr => {
+        return sr.fieldResponses.find((fr: any) => { return fr.field == breakdownAttribute }).ci95
+    })
+}
+
+function getBreakdownMapped(
+    siteBreakdown: WebSocketBusEventResult<SiteStatsBreakdownResponse>[], 
+    webSocketResults: WebSocketBusEventResult<SiteStatsCompileResponse[]| SiteSummarizeResponse[]>[]){
+
+    webSocketResults.forEach(wsr => {
+        const results = toArray(wsr);
+        return results.forEach(sr => {
+            const siteBreakdownResult = siteBreakdown.find(sb => sb.siteCode == wsr.siteCode);
+            if(siteBreakdownResult){
+                sr.breakdown = {result:siteBreakdownResult.result.result};
+            }
+        })
+    })
+}
+
 export default {
-    getResultsMapped, getRequestMapped, getProgressMapped
+    getResultsMapped, getRequestMapped, getProgressMapped, getCI95Result, getBreakdownMapped
 }

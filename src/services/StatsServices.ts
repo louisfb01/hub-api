@@ -1,6 +1,8 @@
 import AllSitesResponseMapper from "../domain/stats/AllSitesResponseMapper";
+import SitesBreakdownLimitAggregator from "../domain/stats/fieldAggregation/SitesBreakdownLimitAggregator";
 import HubSummarizeReponseMapper from "../domain/stats/HubSummarizeReponseMapper";
 import SiteRequestResponse from "../models/Response/SiteRequestResponse";
+import SiteStatsBreakdownResponse from "../models/Response/SiteStatsBreakdownResponse";
 import SiteStatsCompileResponse from "../models/Response/SiteStatsCompileResponse";
 import SiteStatsProgressResponse from "../models/Response/SiteStatsProgressResponse";
 import SiteSummarizeResponse from "../models/Response/SiteSummarizeResponse";
@@ -53,6 +55,21 @@ function compileResults(webSocketResults: WebSocketBusEventResult<SiteStatsCompi
     return hubResults;
 }
 
+function breakdownLimit(webSocketResults: WebSocketBusEventResult<SiteSummarizeResponse[]>[], query: any, waitAllSites: boolean) {
+    const CIResults = webSocketResults
+        .filter(rw => waitAllSites || rw.succeeded)
+        .map(rw => HubSummarizeReponseMapper.getCI95Result(rw, query.body));
+    const smallestAllowableStep = SitesBreakdownLimitAggregator.calculate(CIResults);
+    query.body.selectors[0].breakdown.slices.step > smallestAllowableStep || (query.body.selectors[0].breakdown.slices.step = smallestAllowableStep);
+    return query;
+}
+
+function compileBreakdown(breakdownResults: WebSocketBusEventResult<SiteStatsBreakdownResponse>[], webSocketResults: WebSocketBusEventResult<SiteSummarizeResponse[]>[]){
+    const hubResults = breakdownResults.map(rw => {
+        HubSummarizeReponseMapper.getBreakdownMapped(breakdownResults, webSocketResults)
+    })
+}
+
 export default {
-    compileResults, compileProgress, compileSummarize, compileRequest
+    compileResults, compileProgress, compileSummarize, compileRequest, breakdownLimit, compileBreakdown
 }
