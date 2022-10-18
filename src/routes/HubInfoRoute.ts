@@ -6,7 +6,7 @@ import webSocketAdapter from '../websocket/WebSocketAdapter';
 var router = express.Router();
 
 router.get('/', async (req, res) => {
-  const resultsWrapper = await webSocketAdapter.emit<SiteInfo>('getSiteInfo', 'sendSiteInfo')();
+  const resultsWrapper = await webSocketAdapter.emit<SiteInfo>('getSiteInfo', 'sendSiteInfo', req.query)();
 
   const hubInfo = HubInfoService.unwrap(resultsWrapper);
   res.send(hubInfo);
