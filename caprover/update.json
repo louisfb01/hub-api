@@ -14,6 +14,10 @@
             "value": "$CODA_HUB_API_AUTH_REALM"
         },
         {
+            "key": "CODA_HUB_API_AUTH_CLIENT_SECRET",
+            "value": "$CODA_HUB_API_AUTH_CLIENT_SECRET"
+        },
+        {
             "key": "CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET",
             "value": "$CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET"
         },
