@@ -27,7 +27,7 @@
     "express-promise-router": "^4.1.1",
     "express-session": "^1.17.3",
     "guid-typescript": "^1.0.9",
-    "handy-redis": "^2.3.1",
+    "handy-redis": "^2.2.2",
     "jest": "^29.3.1",
     "joi": "^17.7.0",
     "keycloak-connect": "^11.0.3",
