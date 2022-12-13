@@ -3,6 +3,6 @@ export default interface HubPrepareResponse {
     job: string;
     query?: string;
     count: string;
-    totalCount: string;
+    model: string;
     error?: string;
 }

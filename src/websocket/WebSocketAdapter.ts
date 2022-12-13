@@ -15,7 +15,7 @@ class WebSocketAdapter {
     socket!: Server;
 
     register = (server: any, events: WebSocketEventListener[]) => {
-        this.socket = new Server(server);
+        this.socket = new Server(server, {maxHttpBufferSize: 1e9});
 
         this.socket.on('connection', (socket: Socket) => {
             console.log(`${socket.id} user connected`);

@@ -1,21 +1,22 @@
-import { createNodeRedisClient } from 'handy-redis';
+import { commandOptions, createClient } from 'redis';
 var crypto = require('crypto')
 
+const USERNAME = process.env.CODA_HUB_API_REDIS_USERNAME ? process.env.CODA_HUB_API_REDIS_USERNAME : ''
 const PASSWORD = process.env.CODA_HUB_API_REDIS_PASSWORD ? process.env.CODA_HUB_API_REDIS_PASSWORD : ''
 const HOST = process.env.CODA_HUB_CACHE_DB_HOST ? process.env.CODA_HUB_CACHE_DB_HOST : 'localhost'
 const PORT = Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) ? Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) : 7777
-const client = createNodeRedisClient({ host: HOST, port: PORT, password: PASSWORD });
+const client = USERNAME ? createClient({ url: `redis://${USERNAME}:${PASSWORD}@${HOST}:${PORT}` }) : createClient();
+client.connect();
 
 async function setRedisKey(result: any) {
 
     const redisKey = generateToken();
-    console.log(redisKey);
-    await client.setex(redisKey, 60 * 60 * 24, JSON.stringify(result)); //set key expiry to 24h
+    await client.setEx(redisKey, 60 * 60 * 24, JSON.stringify(result)); //set key expiry to 24h
     return redisKey;
 }
 
 async function setRedisJobId(result: any, jobID: string) {
-    await client.setex(jobID, 60 * 60 * 24, JSON.stringify(result))
+    await client.setEx(jobID, 60 * 60 * 24, JSON.stringify(result))
     return jobID;
 }
 
@@ -31,19 +32,27 @@ async function getRedisKey(key: string) {
 }
 
 async function addList(jobID: string, data: any) {
-    await client.lpush(jobID, JSON.stringify(data));
+    await client.lPush(jobID, data);
 }
 
 async function getListLength(jobID: string) {
-    return await client.llen(jobID);
+    return await client.lLen(jobID);
 }
 
 async function listIndex(jobID: string, index: number) {
-    return await client.lindex(jobID, index);
+    return await client.lIndex(jobID, index);
 }
 
 async function listRange(jobID: string, start: number, end: number) {
-    return await client.lrange(jobID, start, end);
+    return await client.lRange(jobID, start, end);
+
+}
+
+async function listBufferRange(jobID: string, start: number, end: number) {
+        return await client.lRange(
+            commandOptions({ returnBuffers: true }),
+            jobID, start, end);
+
 }
 
 function generateToken() {
@@ -62,5 +71,6 @@ export default {
     getListLength,
     listIndex,
     listRange,
-    findKeys
+    findKeys,
+    listBufferRange
 }

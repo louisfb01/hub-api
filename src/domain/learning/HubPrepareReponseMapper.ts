@@ -8,7 +8,7 @@ function getMapped(siteReponse: WebSocketBusEventResult<SitePrepareResponse[]>):
             job: siteReponse.result[0].job,
             query: siteReponse.result[0].query,
             count: siteReponse.result[0].count,
-            totalCount: siteReponse.result[0].totalCount,
+            model: siteReponse.result[0].model,
             error: siteReponse.result[0].error
         }
     }

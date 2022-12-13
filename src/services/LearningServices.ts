@@ -7,22 +7,27 @@ import FederatedLearningAveraging from "../domain/learning/FederatedLearningAver
 import Redis from "../domain/learning/RedisDataProcessor";
 import SiteEvaluateResponse from "../models/Response/SiteEvaluateResponse";
 import HubEvaluateResponseMapper from "../domain/learning/HubEvaluateResponseMapper";
+import RedisDataProcessor from "../domain/learning/RedisDataProcessor";
 
 async function compilePrepareResults(webSocketResults: WebSocketBusEventResult<SitePrepareResponse[]>[]) {
     const hubResults = webSocketResults.map(rw => HubPrepareResponseMapper.getMapped(rw));
     let response:any[] = []
+    const jobID = hubResults[0].job;
+    const model = hubResults[0].model;
+    RedisDataProcessor.setRedisJobId(model, `${jobID}_model`)
+
     hubResults.forEach(hr => {
         let siteCode = hr.siteCode;
         let count = hr.count;
         let job = hr.job;
-        let totalCount = hr.totalCount;
-        let countResult = {
+        let model = JSON.parse(hr.model);
+        let result = {
+            job,
             siteCode,
             count,
-            totalCount,
-            job
+            model
         }
-        response.push(countResult)
+        response.push(result)
     })
     return response;
 }
@@ -31,7 +36,7 @@ async function compileTrainResults(webSocketResults: WebSocketBusEventResult<Sit
     const hubResults = webSocketResults.map(rw => HubTrainResponseMapper.getMapped(rw)); 
     let redisRound:any = {}
 
-    const averageWeights = FederatedLearningAveraging.averageWeights(hubResults);
+    const averageWeights = await FederatedLearningAveraging.averageWeights(hubResults);
     const averageMetrics = FederatedLearningAveraging.averageMetrics(hubResults.map(hr => hr.metrics));
     let acc = averageMetrics.acc;
     let loss = averageMetrics.loss;
@@ -43,7 +48,7 @@ async function compileTrainResults(webSocketResults: WebSocketBusEventResult<Sit
         currentRound: currentRound,
         totalRounds: totalRounds
     }
-    await Redis.addList(jobID+"rounds", siteAverage)
+    await Redis.addList(jobID+"rounds", JSON.stringify(siteAverage))
     hubResults.forEach(sr =>{
         let acc = sr.metrics.acc;
         let loss = sr.metrics.loss;
@@ -51,9 +56,8 @@ async function compileTrainResults(webSocketResults: WebSocketBusEventResult<Sit
         let val_loss = sr.metrics.val_loss;
         let siteCode = sr.siteCode;
         redisRound = {acc, loss, val_acc, val_loss, siteCode, currentRound, totalRounds}
-        Redis.addList(jobID+"rounds", redisRound)
+        Redis.addList(jobID+"rounds", JSON.stringify(redisRound))
     })
-
     return averageWeights;
 }
 

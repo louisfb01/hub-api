@@ -67,6 +67,7 @@ router.get('/train', async (req, res, next) => {
             const result = await LearningServices.compileTrainResults(resultsWrapper, req.body.job, i + 1, req.body.rounds);
             query.body.weights = result;
         }
+        delete query.body.weights
         const result = query.body;
         res.send(result);
     }

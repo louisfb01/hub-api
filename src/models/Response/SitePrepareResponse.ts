@@ -1,6 +1,6 @@
 export default interface SitePrepareResponse {
     count: string;
-    totalCount: string;
+    model: string;
     job: string;
     query?: string;
     error?: string;
