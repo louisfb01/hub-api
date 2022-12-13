@@ -6,12 +6,20 @@
     "forceSsl": true,
     "envVars": [
         {
+            "key": "CODA_HUB_API_PORT",
+            "value": "$CODA_HUB_API_PORT"
+        },
+        {
             "key": "CODA_AUTH_SERVICE_URL",
             "value": "$CODA_AUTH_SERVICE_URL"
         },
         {
             "key": "CODA_HUB_API_AUTH_REALM",
             "value": "$CODA_HUB_API_AUTH_REALM"
+        },
+        {
+            "key": "CODA_HUB_API_AUTH_CLIENT_SECRET",
+            "value": "$CODA_HUB_API_AUTH_CLIENT_SECRET"
         },
         {
             "key": "CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET",
