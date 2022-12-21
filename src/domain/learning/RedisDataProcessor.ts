@@ -1,7 +1,7 @@
 import { commandOptions, createClient } from 'redis';
 var crypto = require('crypto')
 
-const USERNAME = process.env.CODA_HUB_CACHE_DB_USERNAME ? process.env.CODA_HUB_CACHE_DB_USERNAME : ''
+const USERNAME = ''
 const PASSWORD = process.env.CODA_HUB_CACHE_DB_PASSWORD ? process.env.CODA_HUB_CACHE_DB_PASSWORD : ''
 const HOST = process.env.CODA_HUB_CACHE_DB_HOST ? process.env.CODA_HUB_CACHE_DB_HOST : 'localhost'
 const PORT = Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) ? Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) : 7777
