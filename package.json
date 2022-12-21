@@ -11,8 +11,8 @@
     "caprover:setup": "node ./caprover/setup.js",
     "caprover:deploy": "node ./caprover/deploy.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Kevin Arsenault, Xuefei Shi, Jeffrey Li, Maxime Lavigne, Louis Mullie, Pascal St-Onge",
+  "license": "GPL v3",
   "dependencies": {
     "@tensorflow/tfjs-node": "^3.9.0",
     "@types/express-session": "^1.17.3",
