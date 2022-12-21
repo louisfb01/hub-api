@@ -1,8 +1,8 @@
 import { commandOptions, createClient } from 'redis';
 var crypto = require('crypto')
 
-const USERNAME = process.env.CODA_HUB_API_REDIS_USERNAME ? process.env.CODA_HUB_API_REDIS_USERNAME : ''
-const PASSWORD = process.env.CODA_HUB_API_REDIS_PASSWORD ? process.env.CODA_HUB_API_REDIS_PASSWORD : ''
+const USERNAME = process.env.CODA_HUB_CACHE_DB_USERNAME ? process.env.CODA_HUB_CACHE_DB_USERNAME : ''
+const PASSWORD = process.env.CODA_HUB_CACHE_DB_PASSWORD ? process.env.CODA_HUB_CACHE_DB_PASSWORD : ''
 const HOST = process.env.CODA_HUB_CACHE_DB_HOST ? process.env.CODA_HUB_CACHE_DB_HOST : 'localhost'
 const PORT = Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) ? Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) : 7777
 const client = USERNAME ? createClient({ url: `redis://${USERNAME}:${PASSWORD}@${HOST}:${PORT}` }) : createClient();
@@ -49,9 +49,9 @@ async function listRange(jobID: string, start: number, end: number) {
 }
 
 async function listBufferRange(jobID: string, start: number, end: number) {
-        return await client.lRange(
-            commandOptions({ returnBuffers: true }),
-            jobID, start, end);
+    return await client.lRange(
+        commandOptions({ returnBuffers: true }),
+        jobID, start, end);
 
 }
 

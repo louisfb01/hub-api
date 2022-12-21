@@ -159,17 +159,17 @@ parameters:
   description: 'Keycloak session memory secret'
   required: true
 - name: CODA_HUB_CACHE_DB_HOST
-  displayName: REDIS HOST
-  description: 'Redis host url'
+  displayName: CACHE HOST
+  description: 'Cache DB host url'
   required: true
 - name: CODA_HUB_CACHE_DB_PORT
-  displayName: REDIS PORT
-  description: 'Redis port'
+  displayName: CACHE PORT
+  description: 'Cache DB port'
   value: '6379'
   required: true
-- name: CODA_HUB_API_REDIS_PASSWORD
-  displayName: REDIS PASSWORD
-  description: 'Redis password'
+- name: CODA_HUB_API_CACHE_DB_PASSWORD
+  displayName: CACHE DB PASSWORD
+  description: 'Cache DB password'
   required: true
 - name: CODA_HUB_API_EMAIL_HOST
   displayName: EMAIL HOST
