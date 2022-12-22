@@ -5,7 +5,7 @@ const USERNAME = ''
 const PASSWORD = process.env.CODA_HUB_CACHE_DB_PASSWORD ? process.env.CODA_HUB_CACHE_DB_PASSWORD : ''
 const HOST = process.env.CODA_HUB_CACHE_DB_HOST ? process.env.CODA_HUB_CACHE_DB_HOST : 'localhost'
 const PORT = Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) ? Number(String(process.env.CODA_HUB_CACHE_DB_PORT)) : 7777
-const client = USERNAME ? createClient({ url: `redis://${USERNAME}:${PASSWORD}@${HOST}:${PORT}` }) : createClient();
+const client = createClient({ url: `redis://${USERNAME}:${PASSWORD}@${HOST}:${PORT}` })
 client.connect();
 
 async function setRedisKey(result: any) {
