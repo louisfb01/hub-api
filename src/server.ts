@@ -43,6 +43,10 @@ const server = app.listen(port, function () {
 const keycloak = KeycloakFactory.get(app);
 app.use(keycloak.middleware());
 
+app.get('/', function (req, res, next) {
+  res.status(200).json({ "status": "ok" })
+})
+
 // connect routes to app.
 app.use('/hospital', keycloak.protect(), HospitalRoute)
 app.use('/info', keycloak.protect(), HubInfoRoute)
