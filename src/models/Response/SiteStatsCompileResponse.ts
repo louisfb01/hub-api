@@ -1,4 +1,4 @@
-import BreakdownResponse from "./BreakdownResponse";
+import SiteStatsBreakdownResponse from "./SiteStatsBreakdownResponse";
 import FieldResponse from "./FieldResponse";
 
 export default interface SiteStatsCompileResponse {
@@ -6,6 +6,6 @@ export default interface SiteStatsCompileResponse {
     total: number;
     fieldResponses: FieldResponse[];
     query?: string;
-    breakdown?: BreakdownResponse;
+    breakdown?: SiteStatsBreakdownResponse;
     error?: string;
 }

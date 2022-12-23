@@ -68,9 +68,14 @@ function getBreakdownMapped(
     webSocketResults.forEach(wsr => {
         const results = toArray(wsr);
         return results.forEach(sr => {
-            const siteBreakdownResult = siteBreakdown.find(sb => sb.siteCode == wsr.siteCode);
+            const siteBreakdownResult = siteBreakdown.find((sb:WebSocketBusEventResult<SiteStatsBreakdownResponse>) => sb.siteCode == wsr.siteCode);
             if(siteBreakdownResult){
-                sr.breakdown = {result:siteBreakdownResult.result.result};
+                sr.breakdown = {
+                    result:siteBreakdownResult.result.result,
+                    field:siteBreakdownResult.result.field,
+                    fieldType:siteBreakdownResult.result.fieldType
+
+                };
             }
         })
     })

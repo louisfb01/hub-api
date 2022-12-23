@@ -1,7 +1,7 @@
-import BreakdownResponse from "../../models/Response/BreakdownResponse";
+import SiteStatsBreakdownResponse from "../../models/Response/SiteStatsBreakdownResponse";
 import HubSummarizeResponse from "../../models/Response/HubSummarizeResponse";
 
-function getBreakdownsAggregated(siteRequestSummarizeReponses: HubSummarizeResponse[]): BreakdownResponse | undefined {
+function getBreakdownsAggregated(siteRequestSummarizeReponses: HubSummarizeResponse[]): SiteStatsBreakdownResponse | undefined {
     if (!siteRequestSummarizeReponses[0].breakdown) return undefined;
 
     const siteCountPerPeriodsStarts = new Map<string, number>();
@@ -29,6 +29,7 @@ function getBreakdownsAggregated(siteRequestSummarizeReponses: HubSummarizeRespo
     })
 
     return {
+        job: siteRequestSummarizeReponses[0].job,
         query: siteRequestSummarizeReponses[0].breakdown.query,
         result: breakdownResults,
         field: siteRequestSummarizeReponses[0].breakdown.field,
