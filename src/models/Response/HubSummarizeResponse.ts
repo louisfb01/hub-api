@@ -1,5 +1,5 @@
-import BreakdownResponse from "./BreakdownResponse";
 import FieldResponse from "./FieldResponse";
+import SiteStatsBreakdownResponse from "./SiteStatsBreakdownResponse";
 
 export default interface HubSummarizeResponse {
     siteCode: string;
@@ -7,6 +7,6 @@ export default interface HubSummarizeResponse {
     total: number;
     query?: string;
     results: FieldResponse[];
-    breakdown?: BreakdownResponse;
+    breakdown?: SiteStatsBreakdownResponse;
     error?: string;
 }

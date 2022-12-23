@@ -1,8 +1,8 @@
-import BreakdownResponse from "../../../../../src/models/Response/BreakdownResponse";
 import FieldReponse from "../../../../../src/models/Response/FieldResponse"
 import HubSummarizeResponse from "../../../../../src/models/Response/HubSummarizeResponse"
+import SiteStatsBreakdownResponse from "../../../../../src/models/Response/SiteStatsBreakdownResponse";
 
-function get(total?: number, results?: FieldReponse[], breakdown?: BreakdownResponse): HubSummarizeResponse {
+function get(total?: number, results?: FieldReponse[], breakdown?: SiteStatsBreakdownResponse): HubSummarizeResponse {
     total = total ?? 54;
     results = results ?? [];
 
@@ -10,7 +10,8 @@ function get(total?: number, results?: FieldReponse[], breakdown?: BreakdownResp
         siteCode: 'siteCode',
         total,
         results,
-        breakdown
+        breakdown,
+        job: 'a'
     }
 }
 

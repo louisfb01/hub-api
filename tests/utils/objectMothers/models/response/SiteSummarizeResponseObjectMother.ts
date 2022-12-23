@@ -8,7 +8,8 @@ function get(total: number, fieldResponses?: FieldResponse[]): SiteSummarizeResp
     return {
         total,
         fieldResponses,
-        breakdown: BreakdownReponseObjectMother.get()
+        breakdown: BreakdownReponseObjectMother.get(),
+        job: 'a'
     }
 }
 
@@ -16,7 +17,8 @@ function getWithError(error: string): SiteSummarizeResponse {
     return {
         total: 0,
         fieldResponses: [],
-        error
+        error,
+        job: 'a'
     }
 }
 
