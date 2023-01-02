@@ -1,4 +1,4 @@
-FROM node:16
+FROM ubuntu:18.04
 
 ENV PM2_HOME="/home/node/app/.pm2"
 
@@ -7,9 +7,12 @@ WORKDIR /usr/src/app
 COPY ./ ./
 
 # Install node modules and build
+RUN apt install build-essential
+RUN npm install -g node-pre-gyp
 RUN npm ci --production
 RUN npm audit
 RUN npm run build
+RUN npm rebuild @tensorflow/tfjs-node build-addon-from-source
 
 # Make build footprint version for easier debugging.
 RUN rm ./version.txt
