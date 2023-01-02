@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 COPY ./ ./
 
 # Install node modules and build
-RUN apt install build-essential
 RUN npm install -g node-pre-gyp
 RUN npm ci --production
 RUN npm audit
