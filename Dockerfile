@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY ./ ./
 
 # Install node modules and build
-RUN npm ci
+RUN npm ci --production
 RUN npm audit
 RUN npm run build
 
