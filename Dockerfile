@@ -8,7 +8,7 @@ COPY ./ ./
 
 # Install node modules and build
 RUN npm install -g @mapbox/node-pre-gyp
-RUN npm ci --production
+RUN npm ci --omit=dev
 RUN npm audit
 RUN npm run build
 RUN npm rebuild @tensorflow/tfjs-node build-addon-from-source
