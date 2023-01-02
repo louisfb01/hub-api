@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY ./ ./
 
 # Install node modules and build
-RUN npm install -g node-pre-gyp
+RUN npm install -g @mapbox/node-pre-gyp
 RUN npm ci --production
 RUN npm audit
 RUN npm run build
