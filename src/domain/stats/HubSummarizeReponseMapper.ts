@@ -1,3 +1,4 @@
+import Breakdown from "../../models/Request/breakdown";
 import HubRequestResponse from "../../models/Response/HubRequestResponse";
 import HubStatsCompileResponse from "../../models/Response/hubStatsCompileResponse";
 import HubStatsProgressResponse from "../../models/Response/HubStatsProgressResponse";
@@ -53,8 +54,8 @@ function toArray(obj:WebSocketBusEventResult<any[]>){
     }
 }
 
-function getCI95Result(siteReponse: WebSocketBusEventResult<SiteStatsCompileResponse[]| SiteSummarizeResponse[]>, body:any) {
-    const breakdownAttribute = body.selectors[0].breakdown.resource.field
+function getCI95Result(siteReponse: WebSocketBusEventResult<SiteStatsCompileResponse[]| SiteSummarizeResponse[]>, breakdown:Breakdown) {
+    const breakdownAttribute = breakdown.resource.field
     const results = toArray(siteReponse)
     return results.map(sr => {
         return sr.fieldResponses.find((fr: any) => { return fr.field == breakdownAttribute }).ci95
