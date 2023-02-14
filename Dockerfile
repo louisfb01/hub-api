@@ -7,9 +7,11 @@ WORKDIR /usr/src/app
 COPY ./ ./
 
 # Install node modules and build
-RUN npm ci
+RUN npm install -g @mapbox/node-pre-gyp
+RUN npm ci --omit=dev
 RUN npm audit
 RUN npm run build
+RUN npm rebuild @tensorflow/tfjs-node build-addon-from-source
 
 # Make build footprint version for easier debugging.
 RUN rm ./version.txt

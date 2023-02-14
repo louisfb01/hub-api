@@ -15,7 +15,7 @@ function compileSummarize(webSocketResults: WebSocketBusEventResult<SiteSummariz
         .map(rw => HubSummarizeReponseMapper.getResultsMapped(rw));
 
     if (hubResults.length === 0) return hubResults;
-    
+
     const allSitesResult = AllSitesResponseMapper.getMapped(hubResults);
     hubResults.push(allSitesResult);
 
@@ -60,12 +60,15 @@ function breakdownLimit(webSocketResults: WebSocketBusEventResult<SiteSummarizeR
     const CIResults = webSocketResults
         .filter(rw => waitAllSites || rw.succeeded)
         .map(rw => HubSummarizeReponseMapper.getCI95Result(rw, breakdown));
-    const smallestAllowableStep = SitesBreakdownLimitAggregator.calculate(CIResults);
-    breakdown.slices.step > smallestAllowableStep || (breakdown.slices.step = smallestAllowableStep);
+    if (CIResults && CIResults[0] && CIResults[0][0]) {
+        const smallestAllowableStep = SitesBreakdownLimitAggregator.calculate(CIResults);
+        breakdown.slices.step > smallestAllowableStep || (breakdown.slices.step = smallestAllowableStep);
+
+    }
     return breakdown;
 }
 
-function compileBreakdown(breakdownResults: WebSocketBusEventResult<SiteStatsBreakdownResponse>[], webSocketResults: WebSocketBusEventResult<SiteSummarizeResponse[]>[]){
+function compileBreakdown(breakdownResults: WebSocketBusEventResult<SiteStatsBreakdownResponse>[], webSocketResults: WebSocketBusEventResult<SiteSummarizeResponse[]>[]) {
     const hubResults = breakdownResults.map(rw => {
         HubSummarizeReponseMapper.getBreakdownMapped(breakdownResults, webSocketResults)
     })

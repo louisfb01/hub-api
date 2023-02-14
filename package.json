@@ -14,7 +14,7 @@
   "author": "Kevin Arsenault, Xuefei Shi, Jeffrey Li, Maxime Lavigne, Louis Mullie, Pascal St-Onge",
   "license": "GPL v3",
   "dependencies": {
-    "@tensorflow/tfjs-node": "^3.9.0",
+    "@tensorflow/tfjs-node": "^4.1.0",
     "@types/express-session": "^1.17.3",
     "@types/pg": "^7.14.4",
     "@types/underscore": "^1.10.24",
@@ -35,7 +35,6 @@
     "redis": "^4.5.1",
     "shukra": "^3.0.2",
     "socket.io": "^4.4.1",
-    "ts-jest": "^26.5.2",
     "typescript": "^4.5.5",
     "underscore": "^1.11.0"
   },
@@ -46,10 +45,11 @@
     "@types/express": "^4.17.7",
     "@types/jest-when": "^2.7.2",
     "@types/joi": "^14.3.4",
-    "@types/nodemailer": "^6.4.4",
+    "@types/nodemailer": "^6.4.7",
     "@types/redis": "^4.0.11",
     "jest-when": "^3.2.0",
     "nodemon": "^2.0.19",
+    "ts-jest": "^26.5.2",
     "ts-node": "^8.10.2"
   }
 }
