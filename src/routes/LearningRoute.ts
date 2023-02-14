@@ -5,6 +5,7 @@ import SitePrepareResponse from '../models/Response/SitePrepareResponse';
 import SiteTrainResponse from '../models/Response/SiteTrainResponse';
 import LearningServices from '../services/LearningServices';
 import webSocketAdapter from '../websocket/WebSocketAdapter';
+import queryServices from '../services/QueryServices';
 
 var router = express.Router();
 var crypto = require('crypto')
@@ -28,7 +29,8 @@ router.get('/prepare', async (req, res, next) => {
             return;
         }
         const jobID = crypto.randomBytes(12).toString('base64');
-        req.body.job = jobID
+        req.body.job = jobID;
+        req.body.selectors = queryServices.nestedSelectorsQuery(req.body.selectors);
         const query: any = {
             body: req.body,
             sites: value.sites ? value.sites.split(",") : []
