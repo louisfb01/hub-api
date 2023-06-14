@@ -29,7 +29,7 @@
     "guid-typescript": "^1.0.9",
     "jest": "^26.6.3",
     "joi": "^17.3.0",
-    "keycloak-connect": "^11.0.3",
+    "keycloak-connect": "^21.1.1",
     "nodemailer": "^6.7.2",
     "pg": "^8.3.0",
     "redis": "^4.5.1",
