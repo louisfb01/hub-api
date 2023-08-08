@@ -6,7 +6,7 @@ export default interface HubStatsCompileResponse {
     job: string;
     total: number;
     query?: string;
-    results: FieldResponse[];
+    results?: FieldResponse[];
     breakdown?: SiteStatsBreakdownResponse;
     error?: string;
 }

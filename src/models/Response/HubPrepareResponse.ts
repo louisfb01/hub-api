@@ -4,5 +4,6 @@ export default interface HubPrepareResponse {
     query?: string;
     count: string;
     model: string;
+    weights: any;
     error?: string;
 }

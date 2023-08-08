@@ -13,19 +13,19 @@ async function compilePrepareResults(webSocketResults: WebSocketBusEventResult<S
     const hubResults = webSocketResults.map(rw => HubPrepareResponseMapper.getMapped(rw));
     let response:any[] = []
     const jobID = hubResults[0].job;
+    const weights = Buffer.from(hubResults[0].weights.data);
     const model = hubResults[0].model;
     RedisDataProcessor.setRedisJobId(model, `${jobID}_model`)
+    RedisDataProcessor.setRedisJobId(weights, `${jobID}_weights`) //save weights from first site -> to be used initially on all sites
 
     hubResults.forEach(hr => {
         let siteCode = hr.siteCode;
         let count = hr.count;
         let job = hr.job;
-        let model = JSON.parse(hr.model);
         let result = {
             job,
             siteCode,
-            count,
-            model
+            count
         }
         response.push(result)
     })

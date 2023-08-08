@@ -63,6 +63,19 @@ async function findKeys(pattern: string) {
     return await client.keys(pattern);
 }
 
+async function getBuffer(key: string) {
+    const dataset = await client.get(
+        commandOptions({ returnBuffers: true }),
+        key);
+    await client.expire(key, 60 * 60 * 24); //reset key expiry
+    if (dataset === null) {
+        return '{}';
+    }
+    else {
+        return dataset;
+    }
+}
+
 export default {
     setRedisKey,
     getRedisKey,
@@ -72,5 +85,6 @@ export default {
     listIndex,
     listRange,
     findKeys,
-    listBufferRange
+    listBufferRange,
+    getBuffer
 }

@@ -9,6 +9,7 @@ function getMapped(siteReponse: WebSocketBusEventResult<SitePrepareResponse[]>):
             query: siteReponse.result[0].query,
             count: siteReponse.result[0].count,
             model: siteReponse.result[0].model,
+            weights: siteReponse.result[0].weights,
             error: siteReponse.result[0].error
         }
     }

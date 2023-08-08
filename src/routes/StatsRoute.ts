@@ -9,6 +9,9 @@ import webSocketAdapter from '../websocket/WebSocketAdapter';
 import SiteRequestResponse from '../models/Response/SiteRequestResponse';
 import SiteSummarizeResponse from '../models/Response/SiteSummarizeResponse';
 import SiteStatsBreakdownResponse from '../models/Response/SiteStatsBreakdownResponse';
+import WebSocketQuery from '../models/Request/WebSocketQuery';
+import queryServices from '../services/QueryServices';
+import Selector from '../models/Request/selector';
 
 var router = express.Router();
 var crypto = require('crypto')
@@ -31,19 +34,28 @@ router.get('/summarize', async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1]
     const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const jobID = crypto.randomBytes(12).toString('base64');
-    req.body.job = jobID
-
-    var query: any = {
+    req.body.job = jobID;
+    req.body.selectors = queryServices.nestedSelectorsQuery(req.body.selectors);
+    
+    var summarizeQuery: WebSocketQuery = {
         body: req.body,
         sites: value.sites ? value.sites.split(",") : [],
         waitTime: value.waitTime ? value.waitTime : Constants.webSocketWaitTime
     };
+
     try {
-        var resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsSummarize', 'sendStatsSummarize', query)();
+        var resultsWrapper = await webSocketAdapter.emit<SiteSummarizeResponse[]>('getStatsSummarize', 'sendStatsSummarize', summarizeQuery)();
         const waitAllSites = value.waitAllSites === false ? false : true;
-        if(req.body.selectors[0].breakdown){
-            query = StatsServices.breakdownLimit(resultsWrapper, query, waitAllSites);
-            const breakdownResultsWrapper = await webSocketAdapter.emit<SiteStatsBreakdownResponse>('getStatsBreakdown', 'sendStatsBreakdown', query)();
+
+        if(req.body.options.breakdown){
+            var breakdown = req.body.options.breakdown;
+            req.body.options.breakdown = StatsServices.breakdownLimit(resultsWrapper, breakdown, waitAllSites);
+            var breakdownQuery: WebSocketQuery = {
+                body: req.body,
+                sites: value.sites ? value.sites.split(",") : [],
+                waitTime: value.waitTime ? value.waitTime : Constants.webSocketWaitTime
+            }
+            const breakdownResultsWrapper = await webSocketAdapter.emit<SiteStatsBreakdownResponse>('getStatsBreakdown', 'sendStatsBreakdown', breakdownQuery)();
             StatsServices.compileBreakdown(breakdownResultsWrapper, resultsWrapper);
         }
         

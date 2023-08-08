@@ -1,0 +1,188 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: coda-hub-api
+  annotations:
+    openshift.io/display-name: coda-hub-api
+    description: Coda node purple api (hub)
+    iconClass: icon-nodejs
+    tags: coda
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${CODA_HUB_API}-kc-identifiers
+    labels:
+      application: ${CODA_HUB_API}
+  type: Opaque
+  stringData:
+    secret: ${CODA_HUB_API_AUTH_CLIENT_SECRET}
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${CODA_HUB_API}-kc-sessions
+    labels:
+      application: ${CODA_HUB_API}
+  type: Opaque
+  stringData:
+    secret: ${CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: null
+    labels:
+      app: ${CODA_HUB_API}
+    name: ${CODA_HUB_API}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: ${CODA_HUB_API}
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${CODA_HUB_API}
+    annotations:
+      description: Route pour coda-hub-api
+      haproxy.router.openshift.io/timeout: 90s
+    name: ${CODA_HUB_API}
+  spec:
+    host: '${CODA_HUB_API_FQDN}'
+    port:
+      targetPort: 8080-tcp
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: ${CODA_HUB_API}
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    labels:
+      app: ${CODA_HUB_API}
+    name: ${CODA_HUB_API}
+  spec:
+    replicas: 1
+    selector:
+      app: ${CODA_HUB_API}
+      deploymentconfig: ${CODA_HUB_API}
+    strategy:
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: ${CODA_HUB_API}
+          deploymentconfig: ${CODA_HUB_API}
+      spec:
+        containers:
+          - env:
+            - name: CODA_HUB_API_PORT
+              value: '${CODA_HUB_API_PORT}'
+            - name: CODA_AUTH_SERVICE_URL
+              value: '${CODA_AUTH_SERVICE_URL}'
+            - name: CODA_HUB_API_AUTH_REALM
+              value: '${CODA_HUB_API_AUTH_REALM}'
+            - name: CODA_HUB_API_AUTH_CLIENT_SECRET
+              valueFrom:
+                    secretKeyRef:
+                      key: secret
+                      name: ${CODA_HUB_API}-kc-identifiers
+            - name: CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
+              valueFrom:
+                    secretKeyRef:
+                      key: secret
+                      name: ${CODA_HUB_API}-kc-sessions
+            - name: CODA_HUB_CACHE_DB_HOST
+              value: '${CODA_HUB_CACHE_DB_HOST}'
+            - name: CODA_HUB_CACHE_DB_PORT
+              value: '${CODA_HUB_CACHE_DB_PORT}'
+            - name: CODA_HUB_API_EMAIL_HOST
+              value: '${CODA_HUB_API_EMAIL_HOST}'
+            - name: CODA_HUB_API_EMAIL_PORT
+              value: '${CODA_HUB_API_EMAIL_PORT}'
+            - name: CODA_HUB_API_ERROR_EMAIL_RECIPIENTS
+              value: '${CODA_HUB_API_ERROR_EMAIL_RECIPIENTS}'
+            name: ${CODA_HUB_API}
+            image: coda19/coda19-hub-api:dev
+            ports:
+              - name: ${CODA_HUB_API}
+                containerPort: 8080
+            securityContext:
+                runAsUser: 1000
+        serviceAccount: coda-builder
+        serviceAccountName: coda-builder
+    triggers:
+    - type: ConfigChange
+parameters:
+- displayName: Nom des objects OpenShift
+  name: CODA_HUB_API
+  value: coda-hub-api
+  required: true
+- name: CODA_HUB_API_FQDN
+  displayName: Custom https Route Hostname
+  description: >-
+    Custom hostname for https service route. Leave blank for default hostname,
+    e.g.: <application-name>-<namespace>.<default-domain-suffix>
+  value: api-dev.hub.coda.com
+- name: CODA_HUB_API_PORT
+  displayName: APP PORT
+  description: 'Application Port'
+  value: '8080'
+  required: true
+- name: CODA_AUTH_SERVICE_URL
+  displayName: KEYCLOAK URL
+  description: 'Keycloak Url'
+  required: true
+- name: CODA_HUB_API_AUTH_REALM
+  displayName: KEYCLOAK REALM
+  description: 'Keycloak Realm'
+  required: true
+- name: CODA_HUB_API_AUTH_CLIENT_SECRET
+  displayName: KEYCLOAK CLIENT SECRET
+  description: 'Keycloak client secret'
+  required: true
+- name: CODA_HUB_API_AUTH_SESSION_MEMORY_SECRET
+  displayName: KEYCLOAK SESSION MEMORY SECRET
+  description: 'Keycloak session memory secret'
+  required: true
+- name: CODA_HUB_CACHE_DB_HOST
+  displayName: CACHE HOST
+  description: 'Cache DB host url'
+  required: true
+- name: CODA_HUB_CACHE_DB_PORT
+  displayName: CACHE PORT
+  description: 'Cache DB port'
+  value: '6379'
+  required: true
+- name: CODA_HUB_API_CACHE_DB_PASSWORD
+  displayName: CACHE DB PASSWORD
+  description: 'Cache DB password'
+  required: true
+- name: CODA_HUB_API_EMAIL_HOST
+  displayName: EMAIL HOST
+  description: 'Email server host'
+  value: 'smtp.ulaval.ca'
+  required: true
+- name: CODA_HUB_API_EMAIL_PORT
+  displayName: EMAIL PORT
+  description: 'Email server port'
+  value: '25'
+  required: true
+- name: CODA_HUB_API_ERROR_EMAIL_RECIPIENTS
+  displayName: ERROR EMAIL RECIPIENTS
+  description: 'Email comma seperated to receive errors'
+  value: 'kevin.arsenault@dti.ulaval.ca'
+  required: true

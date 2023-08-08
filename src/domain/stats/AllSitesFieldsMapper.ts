@@ -7,7 +7,9 @@ function getSpecificFieldMapped(sameFieldsFromSites: FieldReponse[]): FieldRepon
         field: sameFieldsFromSites[0].field,
         measure: sameFieldsFromSites[0].measure
     };
-
+    sameFieldsFromSites = sameFieldsFromSites.filter(f=>{
+        f.count || f.mean || f.stdev || f.ci95
+    })
     const fieldValues = FieldsRequestValueAggregator.aggregateFieldValues(sameFieldsFromSites);
     return Object.assign(field, ...fieldValues);
 }
@@ -15,13 +17,20 @@ function getSpecificFieldMapped(sameFieldsFromSites: FieldReponse[]): FieldRepon
 function getMapped(siteSummarizeReponses: HubSummarizeResponse[]): FieldReponse[] {
     const allSpecificFieldsCombined = new Array<Array<FieldReponse>>();
 
+    const numOfFields = Math.max(...siteSummarizeReponses.map(s=>{
+        if(s.results){
+            return s.results.length
+        }
+        else return 0
+    }))
+
     // Group specific fields for all sites in same array group aka invert site responses fields matrix column & rows.
-    for (let fieldIndex = 0; fieldIndex < siteSummarizeReponses[0].results.length; fieldIndex++) {
+    for (let fieldIndex = 0; fieldIndex < numOfFields; fieldIndex++) {
         const sameFieldForAllSites = new Array<FieldReponse>();
 
         siteSummarizeReponses.forEach(siteResponses => {
-            const specificSiteField = siteResponses.results[fieldIndex];
-            sameFieldForAllSites.push(specificSiteField);
+            if(siteResponses.results)
+                sameFieldForAllSites.push(siteResponses.results[fieldIndex]);
         });
 
         allSpecificFieldsCombined.push(sameFieldForAllSites);
