@@ -6,7 +6,7 @@ export default interface HubSummarizeResponse {
     job: string;
     total: number;
     query?: string;
-    results: FieldResponse[];
+    results?: FieldResponse[];
     breakdown?: SiteStatsBreakdownResponse;
     error?: string;
 }

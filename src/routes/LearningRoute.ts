@@ -6,7 +6,7 @@ import SiteTrainResponse from '../models/Response/SiteTrainResponse';
 import LearningServices from '../services/LearningServices';
 import webSocketAdapter from '../websocket/WebSocketAdapter';
 import queryServices from '../services/QueryServices';
-import RedisDataProcessor from '../domain/learning/RedisDataProcessor';
+import Redis from '../domain/learning/RedisDataProcessor';
 
 var router = express.Router();
 var crypto = require('crypto')
@@ -66,7 +66,7 @@ router.get('/train', async (req, res, next) => {
             sites: value.sites ? value.sites.split(",") : []
         };
 
-        query.body.weights = Buffer.from(JSON.parse(await RedisDataProcessor.getRedisKey(`${req.body.job}_weights`)).data)
+        query.body.weights = Buffer.from(JSON.parse(await Redis.getRedisKey(`${req.body.job}_weights`)).data)
         res.status(200).send();
 
         for (let i = 0; i < req.body.rounds; i++) {
