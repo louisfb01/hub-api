@@ -3,7 +3,7 @@
     "instanceCount": 1,
     "notExposeAsWebApp": false,
     "containerHttpPort": "$CODA_HUB_API_PORT",
-    "forceSsl": true,
+    "forceSsl": false,
     "envVars": [
         {
             "key": "CODA_HUB_API_PORT",
